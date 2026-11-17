@@ -20,7 +20,7 @@
 <body>
   <div class="panel">
     <div>
-      <div class="title">AI英訳・解説プロンプト</div>
+      <div class="title">トピック作文（日本語→英語）プロンプト</div>
       <div class="hint">コピーしてChatGPTに貼り付けてください。</div>
     </div>
     <button type="button" id="copy">📋 コピーする</button>
@@ -28,10 +28,39 @@
   <div id="status" role="status" aria-live="polite"></div>
   <script>
     // ↓ このバッククォート（`）内を実際のプロンプト全文に書き換えてください。
-    const PROMPT = `英語学習用に以下の日本語を自然な英語に翻訳してください。
-語彙や文法の解説ポイントもつけてください。
+    const PROMPT = `英語学習用にこの英訳をください。
 
-【ここに日本語の作文を貼り付けてください】`;
+【ここに日記を貼り付ける】
+
+下の例のフォーマットに沿って解説ポイントもつけてください。
+
+- **work hard for ～「～のために一生懸命頑張る」**
+    - **work hard for + 名詞** で「～のために一生懸命努力する」
+    - 試験、目標、仕事などのために頑張るときに使えます
+    - 例）**She worked hard for the competition.**
+        
+        「彼女はその大会のために一生懸命頑張りました。」
+        
+- **in my third year of high school「高校3年生のとき」**
+    - **in my first / second / third year of ～** で「～の1年目 / 2年目 / 3年目」
+    - 学校生活や大学生活について話すときに便利です
+    - 例）**I started working part-time in my second year of college.**
+        
+        「大学2年生のときにアルバイトを始めました。」
+        
+- **pass an exam「試験に受かる」**
+    - **pass + 試験** で「試験に合格する」
+    - 「試験を受ける」は **take an exam** なので注意
+    - 例）**He passed the driving test last month.**
+        
+        「彼は先月、運転免許の試験に合格しました。」
+        
+- **be disappointed「がっかりする / 悔しい」**
+    - 期待していた結果にならなかったときに使います
+    - **be disappointed with / about ～** の形もよく使います
+    - 例）**I was disappointed with my test result.**
+        
+        「私は試験の結果にがっかりしました。」`;
 
     const button = document.getElementById('copy');
     const status = document.getElementById('status');
