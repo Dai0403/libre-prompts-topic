@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Libre English | プロンプトをコピー</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 12px; font-family: -apple-system, BlinkMacSystemFont, "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif; background: #fff; color: #292929; }
+    .panel { border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .title { font-weight: 700; font-size: 14px; }
+    .hint { font-size: 12px; color: #777; margin-top: 5px; line-height: 1.6; }
+    button { flex-shrink: 0; border: 0; border-radius: 8px; padding: 11px 16px; background: #242424; color: white; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+    button:hover { background: #444; }
+    button:focus-visible { outline: 3px solid #8aaaff; outline-offset: 2px; }
+    #status { font-size: 12px; color: #676767; margin: 7px 2px 0; min-height: 18px; }
+    @media(max-width: 380px){ .panel { align-items: stretch; flex-direction: column; } button { width: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div>
+      <div class="title">AI英訳・解説プロンプト</div>
+      <div class="hint">コピーしてChatGPTに貼り付けてください。</div>
+    </div>
+    <button type="button" id="copy">📋 コピーする</button>
+  </div>
+  <div id="status" role="status" aria-live="polite"></div>
+  <script>
+    // ↓ このバッククォート（`）内を実際のプロンプト全文に書き換えてください。
+    const PROMPT = `英語学習用に以下の日本語を自然な英語に翻訳してください。
+語彙や文法の解説ポイントもつけてください。
+
+【ここに日本語の作文を貼り付けてください】`;
+
+    const button = document.getElementById('copy');
+    const status = document.getElementById('status');
+
+    button.addEventListener('click', async () => {
+      try {
+        if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+        await navigator.clipboard.writeText(PROMPT);
+        button.textContent = '✓ コピーしました';
+        status.textContent = 'ChatGPTに貼り付けて使ってください。';
+      } catch (error) {
+        // 埋め込み先がコピー権限を許可しない場合の代替手段
+        const field = document.createElement('textarea');
+        field.value = PROMPT;
+        field.setAttribute('readonly', '');
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.appendChild(field);
+        field.focus();
+        field.select();
+        let copied = false;
+        try { copied = document.execCommand('copy'); } catch (_) {}
+        field.remove();
+        if (copied) {
+          button.textContent = '✓ コピーしました';
+          status.textContent = 'ChatGPTに貼り付けて使ってください。';
+        } else {
+          button.textContent = 'コピーする';
+          status.textContent = 'Notion内でコピーできない場合は、このウィジェットを別タブで開いてください。';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
